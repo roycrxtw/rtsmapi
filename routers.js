@@ -26,7 +26,7 @@ router.get(['/info'], function(req, res, next){
 	//res.locals.css = ['home'];
 	//res.render('home', {uid: req.session.uid, uname: req.session.uname});
 	
-	res.json({message: 'RTSM api by Roy Lu, July 2017'});
+	res.json({message: 'This is RTSM api, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
 });
 
 router.get('/data/:mid/:start?/:end?', async function(req, res, next){
