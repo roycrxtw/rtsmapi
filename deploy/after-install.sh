@@ -7,5 +7,5 @@ npm install
 sudo chown -R ec2-user /var/node/rtsmapi
 sudo chgrp -R ec2-user /var/node/rtsmapi
 chmod -R 755 /var/node/rtsmapi
-sudo mkdir log
+mkdir log
 pm2 start /var/node/rtsmapi/index.js --name='rtsmapi'
