@@ -17,10 +17,13 @@ const PORT = config.port;
 var cors = require('cors');
 app.use(cors());
 
+app.use(express.static(__dirname + '/public'));
+
 // Setup subdomain in production time
 if(ENV === 'production'){
 	app.use(subdomain('rtsmapi', require('./routers')));
 }else{
+	console.log('xd');
 	app.use(require('./routers'));
 }
 
