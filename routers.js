@@ -22,10 +22,6 @@ const MOTORWAYS = require('./data.js');
 //});
 
 router.get(['/info'], function(req, res, next){
-	//log.info({uid: req.session.uid, uname: req.session.uname}, 'Request get>/home');
-	//res.locals.css = ['home'];
-	//res.render('home', {uid: req.session.uid, uname: req.session.uname});
-	
 	res.json({message: 'This is RTSM api, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
 });
 
@@ -49,9 +45,10 @@ router.get('/data/:mid/:start?/:end?', async function(req, res, next){
 	
 	result.name = nameTw;
 	result.nameEn = nameEn;
-	result.start = req.params.start;
-	result.end = req.params.end;
-	result.message = 'path: /data/:motorway';
+	result.direction = motorway.direction;
+	//result.start = req.params.start;
+	//result.end = req.params.end;
+	//result.message = 'path: /data/:motorway';
 	result.traffic = parsedData;
 	return res.json(result);
 });
