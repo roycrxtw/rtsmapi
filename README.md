@@ -23,6 +23,7 @@ https://rtsmapi.royvbtw.uk/data/m5
 {
 name: "國道5號",
 nameEn: "M5 Motorway",
+direction: 0,
 traffic: [
 {name: "南港系統(0) - 石碇(4)", speedA: "77", speedB: "67"},
 {name: "石碇(4) - 坪林行控(14)", speedA: "84", speedB: "76"}
