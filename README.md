@@ -32,13 +32,13 @@ traffic: [
 各區段之速度資料會依序輸出在traffic陣列中。
 
 ## 回傳資料說明
-**name**: 國道名稱
-**nameEn**: 國道英文名稱
-**direction**: 此國道之走向. 0: 南北向. 1: 東西向.
-**traffic**: 為一陣列，陣列內元素為各區段之速度資料
-**traffic .name**: 區段名稱
-**traffic .speedA**: 參考下表
-**traffic .speedB**: 參考下表
++ **name**: 國道名稱
++ **nameEn**: 國道英文名稱
++ **direction**: 此國道之走向. 0: 南北向. 1: 東西向.
++ **traffic**: 為一陣列，陣列內元素為各區段之速度資料
++ **traffic .name**: 區段名稱
++ **traffic .speedA**: 參考下表
++ **traffic .speedB**: 參考下表
 
 -|direction|speedA|speedB
 ---|---|---|---
