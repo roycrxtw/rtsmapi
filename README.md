@@ -12,7 +12,7 @@ A real-time traffic data api of motorways in Taiwan. 本api會抓取高速公路
 ```
 https://rtsmapi.royvbtw.uk/data/motorwayId
 ```
-**motorwayId** 國道代號，請參閱下表
+**motorwayId** 國道代號，請[參閱下表](#國道代號列表)
 ## 使用範例
 ```
 https://rtsmapi.royvbtw.uk/data/m5
