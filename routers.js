@@ -7,15 +7,23 @@ var express = require('express'),
 var dataLoader = require('./data-loader.js');
 var parser = require('./data-parser.js');
 const MOTORWAYS = require('./data.js');
+var config = require('./config/main.config');
 
-//const LOG_LEVEL = require('../config/main.config').LOG_LEVEL;
-//var log = require('bunyan').createLogger({
-//	name: 'dispatcher',
-//	streams: [{
-//		level: LOG_LEVEL,
-//		path: 'log/grumbler.log'
-//	}]
-//});
+var log = null;
+
+// To ensure the log file exists.
+var fs = require('fs');
+if(!fs.existsSync(config.accesslogPath)){
+	fs.appendFileSync(config.accesslogPath, 'new log', {flag: 'wx'});
+}
+
+var log = require('bunyan').createLogger({
+	name: 'accesslog',
+	streams: [{
+		level: config.logLevel,
+		path: config.accesslogPath
+	}]
+});
 
 //router.use(function(req, res, next){
 //	next();
@@ -26,6 +34,11 @@ router.get(['/readme'], function(req, res, next){
 });
 
 router.get(['/info'], function(req, res, next){
+	let ip = req.headers['x-forwarded-for'] || 
+			req.connection.remoteAddress || 
+			req.socket.remoteAddress ||
+			req.connection.socket.remoteAddress;
+	log.info('Access path= , ip=%s', ip);
 	res.json({message: 'This is RTSM api, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
 });
 

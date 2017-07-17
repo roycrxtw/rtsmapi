@@ -6,7 +6,7 @@
 
 'use strict';
 
-var config = require('./config/config.js');
+var config = require('./config/main.config');
 
 var express = require('express');
 var app = express();
