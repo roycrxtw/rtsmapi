@@ -34,11 +34,14 @@ router.get(['/readme'], function(req, res, next){
 });
 
 router.get(['/info'], function(req, res, next){
-	let ip = req.headers['x-forwarded-for'] || 
-			req.connection.remoteAddress || 
-			req.socket.remoteAddress ||
-			req.connection.socket.remoteAddress;
-	log.info('Access path= , ip=%s', ip);
+	let ip0 = req.headers['x-forwarded-for'];
+	let ip1 = req.connection.remoteAddress;
+	let ip2 = 		req.socket.remoteAddress;
+	let ip3 = 		req.connection.socket.remoteAddress;
+	log.info('Access path= , ip=%s', ip0);
+	log.info('Access path= , ip1=%s', ip1);
+	log.info('Access path= , ip2=%s', ip2);
+	log.info('Access path= , ip3=%s', ip3);
 	res.json({message: 'This is RTSM api, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
 });
 
