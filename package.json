@@ -8,6 +8,7 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
+    "bunyan": "^1.8.10",
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.3",
     "express": "^4.15.3",
