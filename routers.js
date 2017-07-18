@@ -9,8 +9,6 @@ var parser = require('./data-parser.js');
 const MOTORWAYS = require('./data.js');
 var config = require('./config/main.config');
 
-var log = null;
-
 // To ensure the log file exists.
 var fs = require('fs');
 if(!fs.existsSync(config.accesslogPath)){
@@ -25,23 +23,26 @@ var log = require('bunyan').createLogger({
 	}]
 });
 
-//router.use(function(req, res, next){
-//	next();
-//});
+// Accesslog middleware
+router.use(function(req, res, next){
+	if(req.path === '/favicon.ico'){
+		return next();
+	}
+	log.info({
+		path: req.url, 
+		xForwardFor: req.headers['x-forwarded-for'], 
+		remoteAddress: req.connection.remoteAddress,
+		socketRemoteAddress: req.socket.remoteAddress
+	}, 'Access log');
+	
+	next();
+});
 
 router.get(['/readme'], function(req, res, next){
-	res.redirect(303, '/readme.html');
+	res.redirect(302, '/readme.html');
 });
 
 router.get(['/info'], function(req, res, next){
-	let ip0 = req.headers['x-forwarded-for'];
-	let ip1 = req.connection.remoteAddress;
-	let ip2 = 		req.socket.remoteAddress;
-	let ip3 = 		req.connection.socket.remoteAddress;
-	log.info('Access path= , ip=%s', ip0);
-	log.info('Access path= , ip1=%s', ip1);
-	log.info('Access path= , ip2=%s', ip2);
-	log.info('Access path= , ip3=%s', ip3);
 	res.json({message: 'This is RTSM api, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
 });
 
@@ -81,9 +82,10 @@ router.use(function(req, res, next){
 });
 
 router.use(function(err, req, res, next){
+	console.log('Error happened in routers');
+	console.log('Error: ', err);
 	res.send("很抱歉，暫時無法提供此服務，請稍後再試。" 
 			+ "The service is currently not available. Please try it later.");
-	
 });
 
 module.exports = router;
