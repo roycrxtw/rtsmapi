@@ -2,11 +2,12 @@
 'use strict';
 
 var request = require('request');
+var debug = require('debug')('data-loader');
 
 // return a promise object
 module.exports = function(url){
 	return new Promise(function(resolve, reject){
-		console.log('Processing url{%s}', url);
+		debug('Processing url{%s}', url);
 		
 		request(url, function(err, res, body){
 			if(err){

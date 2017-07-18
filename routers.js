@@ -9,12 +9,6 @@ var parser = require('./data-parser.js');
 const MOTORWAYS = require('./data.js');
 var config = require('./config/main.config');
 
-// To ensure the log file exists.
-var fs = require('fs');
-if(!fs.existsSync(config.accesslogPath)){
-	fs.appendFileSync(config.accesslogPath, 'new log', {flag: 'wx'});
-}
-
 var log = require('bunyan').createLogger({
 	name: 'accesslog',
 	streams: [{
@@ -30,6 +24,7 @@ router.use(function(req, res, next){
 	}
 	log.info({
 		path: req.url, 
+		xReadIp: req.headers['x-real-ip'],
 		xForwardFor: req.headers['x-forwarded-for'], 
 		remoteAddress: req.connection.remoteAddress,
 		socketRemoteAddress: req.socket.remoteAddress
@@ -47,13 +42,12 @@ router.get(['/info'], function(req, res, next){
 });
 
 router.get('/data/:mid/:start?/:end?', async function(req, res, next){
-	//log.info({uid: req.session.uid, uname: req.session.uname}, 'Request get>/home');
 	let result = {};
 	let mid = req.params.mid;
 	
 	let motorway = MOTORWAYS[mid];
 	if(!motorway){
-		console.log('Invalid motorway id');
+		console.log('Invalid motorway id');		//#todo: test
 		return res.json({message: 'Invalid motorway id'});
 	}
 	
@@ -82,8 +76,8 @@ router.use(function(req, res, next){
 });
 
 router.use(function(err, req, res, next){
-	console.log('Error happened in routers');
-	console.log('Error: ', err);
+	log.error('Error happened in routers');
+	log.error('Error: ', err);
 	res.send("很抱歉，暫時無法提供此服務，請稍後再試。" 
 			+ "The service is currently not available. Please try it later.");
 });

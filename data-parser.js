@@ -3,9 +3,10 @@
 
 
 var cheerio = require('cheerio');
+var debug = require('debug')('data-parser');
 
 module.exports = function(rawData){
-	console.log('rawData=', rawData);
+	debug('rawData=', rawData);
 	
 	let data = '<table>' + rawData + '</table>';
 	
@@ -22,6 +23,5 @@ module.exports = function(rawData){
 		dataset[i] = data;
 	});
 
-	console.log('After process, the dataset=', dataset);
 	return dataset;
 };
