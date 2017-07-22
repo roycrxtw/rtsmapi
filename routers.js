@@ -18,8 +18,9 @@ var log = require('bunyan').createLogger({
 });
 
 // Accesslog middleware
+// This middleware will log every possibie client ips using bunyan module
 router.use(function(req, res, next){
-	if(req.path === '/favicon.ico'){
+	if(req.path === '/favicon.ico'){	// ignore the request for favicon.ico
 		return next();
 	}
 	log.info({
@@ -47,7 +48,6 @@ router.get('/data/:mid/:start?/:end?', async function(req, res, next){
 	
 	let motorway = MOTORWAYS[mid];
 	if(!motorway){
-		console.log('Invalid motorway id');		//#todo: test
 		return res.json({message: 'Invalid motorway id'});
 	}
 	
