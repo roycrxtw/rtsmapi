@@ -1,5 +1,5 @@
 {
-  "name": "rtsm",
+  "name": "rtsmapi",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,17 +8,20 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "bunyan": "^1.8.10",
+    "bunyan": "^1.8.12",
     "cheerio": "^1.0.0-rc.2",
-    "cors": "^2.8.3",
-    "debug": "^2.6.8",
-    "express": "^4.15.3",
-    "express-subdomain": "^1.0.5",
-    "request": "^2.81.0"
+    "cors": "^2.8.4",
+    "debug": "^2.6.9",
+    "express": "^4.15.4",
+    "request": "^2.82.0"
   },
   "author": "Roy Lu (royvbtw)",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.12.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/royvbtw/rtsmapi.git"
   }
 }
