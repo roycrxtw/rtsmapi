@@ -1,15 +1,13 @@
 
 /**
- * RTSM
- * @type {Module express|Module express}
+ * RTSM API
  */
 
 'use strict';
 
-var config = require('./config/main.config');
-
 var express = require('express');
 var app = express();
+const config = require('./config/main.config');
 const ENV = config.env;
 const PORT = config.port;
 

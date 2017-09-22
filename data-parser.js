@@ -1,6 +1,12 @@
 
-'use strict';
+/**
+ * A special designed html parser for the data fetched from National Freeway Burean of Taiwan.
+ * @author Roy Lu
+ * Sep 2017
+ */
 
+
+'use strict';
 
 var cheerio = require('cheerio');
 var debug = require('debug')('data-parser');
@@ -8,11 +14,11 @@ var debug = require('debug')('data-parser');
 module.exports = function(rawData){
 	debug('rawData=', rawData);
 	
-	let data = '<table>' + rawData + '</table>';
+	const content = '<table>' + rawData + '</table>';
 	
-	var $ = cheerio.load(data);
+	var $ = cheerio.load(content);
 	
-	let dataset = [];
+	const dataset = [];
 
 	$('tr').each(function(i, elem){
 		let data = {

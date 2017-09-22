@@ -7,7 +7,7 @@ var express = require('express'),
 var dataLoader = require('./data-loader.js');
 var parser = require('./data-parser.js');
 const MOTORWAYS = require('./data.js');
-var config = require('./config/main.config');
+const config = require('./config/main.config');
 
 var log = require('bunyan').createLogger({
 	name: 'accesslog',
@@ -34,38 +34,44 @@ router.use(function(req, res, next){
 	next();
 });
 
-router.get(['/readme'], function(req, res, next){
+router.get(['/', '/readme'], function(req, res, next){
 	res.redirect(302, '/readme.html');
 });
 
 router.get(['/info'], function(req, res, next){
-	res.json({message: 'This is RTSM api, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
+	res.json({message: 'This is RTSM API, a realtime traffic data of motorways in Taiwan by Roy Lu. July 2017'});
 });
 
-router.get('/data/:mid/:start?/:end?', async function(req, res, next){
-	let result = {};
-	let mid = req.params.mid;
-	
-	let motorway = MOTORWAYS[mid];
-	if(!motorway){
-		return res.json({message: 'Invalid motorway id'});
+/**
+ * Main endpoint
+ */
+router.get('/data/:mid', async function(req, res, next){
+	try{
+		const result = {};
+		const mid = req.params.mid;
+		
+		const motorway = MOTORWAYS[mid];
+		if(!motorway){
+			return res.json({message: 'Invalid motorway id'});
+		}
+		
+		const nameTw = motorway.nameTw;
+		const nameEn = motorway.nameEn;
+		const url = motorway.url;
+		
+		const rawData = await dataLoader(url);
+		const parsedData = await parser(rawData);		// parser() returns an array
+		
+		result.name = nameTw;
+		result.nameEn = nameEn;
+		result.direction = motorway.direction;
+		result.traffic = parsedData;
+		result.updatedAt = new Date().toISOString();
+		return res.json(result);
+	}catch(ex){
+		log.error({ex: ex.stack}, 'Error in get>/data/:mid');
+		return res.sendStatus(404);
 	}
-	
-	let nameTw = motorway.nameTw;
-	let nameEn = motorway.nameEn;
-	let url = motorway.url;
-	
-	let rawData = await dataLoader(url);
-	let parsedData = await parser(rawData);
-	
-	result.name = nameTw;
-	result.nameEn = nameEn;
-	result.direction = motorway.direction;
-	//result.start = req.params.start;
-	//result.end = req.params.end;
-	//result.message = 'path: /data/:motorway';
-	result.traffic = parsedData;
-	return res.json(result);
 });
 
 
@@ -74,6 +80,7 @@ router.use(function(req, res, next){
 	//res.sendStatus(404);
 	res.send('What do you look for?');
 });
+
 
 router.use(function(err, req, res, next){
 	log.error('Error happened in routers');
